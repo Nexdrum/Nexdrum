@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0e14">
+<title>Nexdrum</title>
+</head>
+<body>
+<style>
+body{text-align:center;margin:0;background:radial-gradient(circle at top,rgba(47,86,168,.18),transparent 34%),radial-gradient(circle at 85% 10%,rgba(255,172,66,.12),transparent 22%),#0c0e14;color:#e8eaf0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:10px 6px 40px}
+.topbar{max-width:1600px;margin:0 auto 12px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding:14px 16px;background:linear-gradient(180deg,rgba(27,32,46,.92) 0%,rgba(16,20,31,.92) 100%);border:1px solid #2d3750;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.05)}
+.titleblock{text-align:left;min-width:0;display:flex;flex-direction:column;gap:4px}
+.titleblock h1.logo{margin:0;position:relative;display:inline-block;font-size:clamp(28px,4.2vw,42px);line-height:.95;letter-spacing:1.2px;font-weight:900;font-style:italic;text-transform:uppercase;background:linear-gradient(90deg,#9de7ff 0%,#90a8ff 25%,#c98eff 52%,#ff9f67 77%,#ffe56c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 10px rgba(110,156,255,.26)) drop-shadow(0 0 18px rgba(255,166,96,.18))}
+.titleblock h1.logo::before{content:attr(data-text);position:absolute;inset:0;color:transparent;-webkit-text-stroke:1px rgba(233,239,255,.18);transform:translate(1px,1px);pointer-events:none}
+.titleblock p{margin:0;font-size:13px;opacity:.78;letter-spacing:.15px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;justify-content:flex-end}
+.controls label{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#1a2030;border:1px solid #313e59;border-radius:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.controls input[type=range]{width:110px}
+.controls button{cursor:pointer;background:linear-gradient(180deg,#2a3248 0%,#1d2435 100%);color:#e8eaf0;border:1px solid #42506d;border-radius:10px;padding:7px 12px;font-size:13px;font-family:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 2px 10px rgba(0,0,0,.18);transition:background .12s ease,border-color .12s ease,transform .06s ease}
+.controls button:hover{background:linear-gradient(180deg,#34405b 0%,#232b3f 100%);border-color:#566887}
+.controls button:active{background:#1a2030;transform:translateY(1px)}
+.readout{max-width:1600px;margin:0 auto 8px;min-height:22px;font-size:13px;opacity:.92;padding:8px 12px;background:rgba(20,24,35,.72);border:1px solid rgba(48,59,83,.8);border-radius:12px;box-shadow:0 6px 22px rgba(0,0,0,.22)}
+.kit{max-width:1600px;margin:0 auto;display:block}
+.section{background:#151926;border:1px solid #263048;border-radius:14px;padding:8px 10px 10px;box-shadow:0 6px 24px rgba(0,0,0,.35);overflow:visible}
+.rowlabel{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;margin:8px 2px 0;text-align:left}
+.rowlabel:first-child{margin-top:0}
+.rowlabel h2{margin:0;font-size:13px;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+.rowlabel span{font-size:11px;opacity:.65}
+.padgrid{display:flex;flex-direction:row;flex-wrap:nowrap;gap:8px;align-items:flex-start;overflow:visible;padding:4px 0 4px}
+.pad{position:relative;flex:1 1 0;min-width:0;border:0;cursor:pointer;color:#fff;font-family:inherit;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;transition:transform .06s ease,filter .06s ease}
+.pad:active{transform:scale(.96)}
+.pad.hit{filter:brightness(1.35);box-shadow:0 0 16px 3px var(--glow,#fff),0 0 44px 10px var(--glow,#fff)}
+.pad .note{position:absolute;left:0;right:0;bottom:5px;text-align:center;font-size:clamp(8px,1.2vw,12px);font-weight:700;letter-spacing:.3px;text-shadow:0 1px 3px rgba(0,0,0,.8);pointer-events:none;white-space:nowrap}
+.pad .oct{opacity:.65;font-weight:400}
+.kick{aspect-ratio:3/4.6;border-radius:9px;background:linear-gradient(180deg,#3a4152 0%,#232836 18%,#2c3345 50%,#171b26 100%);border:2px solid #0c0e14;outline:2px solid #39415a;box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 -10px 16px rgba(0,0,0,.55),0 3px 0 #000}
+.kick::before{content:"";position:absolute;left:12%;right:12%;top:10%;bottom:26%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.14) 0 3px,rgba(0,0,0,.28) 3px 9px),linear-gradient(180deg,#4a546c,#2a3040);border-radius:5px;border:1px solid rgba(0,0,0,.6);box-shadow:inset 0 1px 3px rgba(255,255,255,.25)}
+.kick::after{content:"▲ LOUD";position:absolute;left:0;right:0;top:2.5%;font-size:clamp(6px,0.9vw,10px);font-weight:800;letter-spacing:1px;color:#ffd47c;opacity:.9;pointer-events:none}
+.snare{aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 50% 42%,#ffffff 0%,#e9ebf1 42%,#c9ccd6 62%,#8f96a8 72%,#d7dae2 76%,#4c5468 82%,#232836 100%);border:3px solid #aab1c5;box-shadow:0 4px 10px rgba(0,0,0,.6),inset 0 -6px 12px rgba(0,0,0,.3);color:#1a2030}
+.snare .note{color:#1a2030;text-shadow:0 1px 0 rgba(255,255,255,.7);bottom:8px}
+.snare::before{content:"";position:absolute;left:50%;top:50%;width:14%;height:14%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#ff5a5a,#b00);box-shadow:0 0 6px rgba(0,0,0,.5);opacity:.85;pointer-events:none}
+.cymbal{aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 50% 38%,#fff3c4 0%,#f5cd5e 12%,#d9a63a 26%,#a97a1f 44%,#e8c25c 58%,#8a641c 74%,#5e4311 88%,#3a2a0c 100%);border:3px solid #6b4d15;box-shadow:0 5px 14px rgba(0,0,0,.6),inset 0 2px 8px rgba(255,255,255,.5),inset 0 -8px 14px rgba(0,0,0,.45)}
+.cymbal::before{content:"";position:absolute;inset:6%;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,rgba(0,0,0,.12) 0 1px,transparent 1px 5px);pointer-events:none}
+.cymbal::after{content:"";position:absolute;left:50%;top:50%;width:26%;height:26%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 40% 35%,#ffeeb0,#c99a2e 60%,#6f5115);box-shadow:0 1px 4px rgba(0,0,0,.6),inset 0 1px 2px rgba(255,255,255,.7);pointer-events:none}
+.cymbal .note{z-index:2;bottom:6px;color:#2e2008;text-shadow:0 1px 0 rgba(255,255,255,.65)}
+.strike{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 0 10px #fff;pointer-events:none;z-index:5;animation:fade .35s ease forwards}
+@keyframes fade{to{opacity:0;transform:scale(2.2)}}
+.legend{max-width:1600px;margin:8px auto 0;font-size:12px;opacity:.75;line-height:1.6}
+@media(max-width:700px){.topbar{padding:12px}.controls{justify-content:flex-start}.controls label{width:100%;justify-content:space-between}.titleblock h1.logo{font-size:clamp(26px,9vw,34px)}.padgrid{gap:4px}.kick{outline-width:1px}.section{padding:6px 6px 8px}}
+</style>
+<div class="topbar">
+<div class="titleblock">
+<h1 class="logo" data-text="Nexdrum">Nexdrum</h1>
+<p id="subEl">7 kick pedals (E2–A♯2) · 7 snares (B2–F3) · 7 cymbals (F♯4–C5). Hit position = dynamics.</p>
+</div>
+<div class="controls">
+<label>Volume <input id="volInput" type="range" min="0" max="100" value="85"></label>
+<label>Reverb <input id="reverbInput" type="range" min="0" max="100" value="18"></label>
+<label>Arch <input id="archInput" type="range" min="0" max="140" value="64"></label>
+<button id="fitBtn">Fit: on</button>
+<button id="dynBtn">Dynamics: off</button>
+<button id="fullBtn">Full 36: off</button>
+<button id="audioBtn">Enable sound</button>
+</div>
+</div>
+<div class="readout" id="readoutEl">Tap a pad. Kick: top = loud. Snare: center = loud. Cymbal: edge = loud.</div>
+<div class="kit" id="kitEl">
+<div class="section">
+<div class="rowlabel"><h2 id="cymLabel">Cymbals — F♯4 → C5</h2><span>edge loud, center soft</span></div>
+<div class="padgrid" id="cymGrid"></div>
+<div class="rowlabel"><h2 id="snareLabel">Snares — B2 → F3</h2><span>center loud, edge quiet</span></div>
+<div class="padgrid" id="snareGrid"></div>
+<div class="rowlabel"><h2 id="kickLabel">Kicks — E2 → A♯2</h2><span>top loud, bottom quiet</span></div>
+<div class="padgrid" id="kickGrid"></div>
+</div>
+</div>
+<div class="legend">Each row stays in one line and arcs like a rainbow. Arch controls curve depth. Fit shrinks the whole kit so it stays fully playable without scrolling. Best in landscape.</div>
+<script>
+let actx=null,master=null,noiseBuf=null,metalNoiseBuf=null,dryGain=null,reverbGain=null,reverbConvolver=null,reverbDelay=null,reverbTone=null,comp=null,wavePool=null,stickCache={},cymVoices=[];
+const readoutEl=document.getElementById("readoutEl");
+const volInput=document.getElementById("volInput");
+const reverbInput=document.getElementById("reverbInput");
+const audioBtn=document.getElementById("audioBtn");
+const archInput=document.getElementById("archInput");
+const fitBtn=document.getElementById("fitBtn");
+const dynBtn=document.getElementById("dynBtn");
+const fullBtn=document.getElementById("fullBtn");
+const kitEl=document.getElementById("kitEl");
+let fitOn=true;
+let dynamicsOn=false;
+const SEMI={"C":0,"C#":1,"D":2,"D#":3,"E":4,"F":5,"F#":6,"G":7,"G#":8,"A":9,"A#":10,"B":11};
+function noteToFreq(n){
+  let name=n.slice(0,-1),oct=parseInt(n.slice(-1),10);
+  let midi=(oct+1)*12+SEMI[name];
+  return 440*Math.pow(2,(midi-69)/12);
+}
+function buildRoomImpulse(){
+  // Short stereo room impulse: early reflections stay distinct while the
+  // randomized late field decays and darkens naturally.
+  let seconds=2.8;
+  let length=Math.floor(actx.sampleRate*seconds);
+  let impulse=actx.createBuffer(2,length,actx.sampleRate);
+  const early=[0.011,0.019,0.031,0.047,0.071,0.103];
+  for(let ch=0;ch<2;ch++){
+    let data=impulse.getChannelData(ch);
+    let smooth=0;
+    for(let i=0;i<length;i++){
+      let t=i/actx.sampleRate;
+      let white=Math.random()*2-1;
+      smooth=smooth*0.78+white*0.22;
+      // Fast initial density, then a softer diffuse tail.
+      let decay=Math.pow(1-t/seconds,2.7)*Math.exp(-t*1.15);
+      let density=Math.min(1,t*38);
+      data[i]=(white*0.62+smooth*0.38)*decay*density*0.27;
+    }
+    // A few asymmetrical early reflections keep it from sounding like a
+    // simple noise fade and provide a small-room sense of distance.
+    early.forEach((sec,idx)=>{
+      let jitter=(ch?0.00073:-0.00051)*(idx+1);
+      let at=Math.max(0,Math.floor((sec+jitter)*actx.sampleRate));
+      if(at<length)data[at]+=(0.42/(1+idx*0.48))*(idx%2?-1:1);
+    });
+  }
+  return impulse;
+}
+function setReverbAmount(){
+  if(!reverbGain)return;
+  let x=Math.min(1,Math.max(0,Number(reverbInput.value)/100));
+  // Send-style curve: useful control at low values without making 100%
+  // overwhelmingly loud. Dry signal remains untouched at every setting.
+  reverbGain.gain.setTargetAtTime(Math.pow(x,1.35)*0.72,actx.currentTime,0.025);
+}
+function ensureAudio(){
+  if(!actx){
+    actx=new (window.AudioContext||window.webkitAudioContext)();
+    master=actx.createGain();
+    dryGain=actx.createGain();
+    reverbGain=actx.createGain();
+    reverbConvolver=actx.createConvolver();
+    reverbDelay=actx.createDelay(0.08);
+    reverbTone=actx.createBiquadFilter();
+    comp=actx.createDynamicsCompressor();
+    comp.threshold.value=-14;comp.ratio.value=5;
+
+    // One shared room for the entire kit. Every voice already feeds `master`,
+    // so the dry path and reverb send stay coherent across kicks, snares and cymbals.
+    master.connect(dryGain);dryGain.connect(comp);
+    master.connect(reverbDelay);reverbDelay.connect(reverbConvolver);
+    reverbConvolver.connect(reverbTone);reverbTone.connect(reverbGain);reverbGain.connect(comp);
+    comp.connect(actx.destination);
+    reverbDelay.delayTime.value=0.014;
+    reverbTone.type="lowpass";reverbTone.frequency.value=6200;reverbTone.Q.value=0.35;
+    reverbConvolver.buffer=buildRoomImpulse();
+    dryGain.gain.value=1;
+    master.gain.value=volInput.value/100*0.9;
+    setReverbAmount();
+    let len=actx.sampleRate*2;
+    noiseBuf=actx.createBuffer(1,len,actx.sampleRate);
+    let d=noiseBuf.getChannelData(0);
+    for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+
+    // A longer, separately textured source for cymbal wash. It never loops
+    // during a normal decay, which avoids the repeating white-noise texture
+    // that made long cymbal tails sound synthetic.
+    let mlen=actx.sampleRate*8;
+    metalNoiseBuf=actx.createBuffer(1,mlen,actx.sampleRate);
+    let md=metalNoiseBuf.getChannelData(0),slow=0,prev=0;
+    for(let i=0;i<mlen;i++){
+      let white=Math.random()*2-1;
+      slow=slow*0.965+white*0.035;
+      let bright=white-slow;
+      let edge=white-prev; prev=white;
+      md[i]=Math.max(-1,Math.min(1,bright*0.68+edge*0.17+white*0.15));
+    }
+    wavePool=[];
+    for(let i=0;i<10;i++)wavePool.push(randomPhaseWave());
+  }
+  if(actx.state==="suspended")actx.resume();
+  audioBtn.textContent="Sound on";
+}
+audioBtn.onclick=ensureAudio;
+volInput.oninput=()=>{if(master)master.gain.value=volInput.value/100*0.9;};
+reverbInput.oninput=()=>{if(actx)setReverbAmount();};
+function env(g,t,a,peak,dec){
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.linearRampToValueAtTime(peak,t+a);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+a+dec);
+}
+function noiseHit(filterType,freq,Q,peak,dec,loop,sweepTo){
+  let t=actx.currentTime;
+  let n=actx.createBufferSource();n.buffer=noiseBuf;
+  if(loop)n.loop=true;
+  let f=actx.createBiquadFilter();f.type=filterType;f.frequency.setValueAtTime(freq,t);f.Q.value=Q||0.8;
+  if(sweepTo)f.frequency.exponentialRampToValueAtTime(Math.max(40,sweepTo),t+dec);
+  let g=actx.createGain();env(g,t,0.001,peak,dec);
+  n.connect(f);f.connect(g);g.connect(master);n.start(t);n.stop(t+dec+0.2);
+}
+function impactMode(freq,peak,dec,sweepFrom,type){
+  let t=actx.currentTime;
+  let o=actx.createOscillator(),g=actx.createGain();
+  o.type=type||"sine";
+  let f=Math.max(24,Math.min(actx.sampleRate*0.42,freq));
+  let startF=Math.max(24,Math.min(actx.sampleRate*0.42,f*(sweepFrom||1)));
+  o.frequency.setValueAtTime(startF,t);
+  if(Math.abs(startF-f)>0.5)o.frequency.exponentialRampToValueAtTime(f,t+Math.min(0.09,Math.max(0.018,dec*0.22)));
+  env(g,t,0.001,Math.max(0.0001,peak),dec);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+dec+0.12);
+}
+function drumModes(base,vel,body,edge){
+  // Circular membranes are inharmonic. These ratios keep the requested pitch
+  // clear while avoiding the organ-like harmonic stack of ordinary oscillators.
+  let ratios=[1,1.593,2.136,2.296,2.653,2.918];
+  let gains =[1,0.34,0.20,0.13,0.09,0.06];
+  ratios.forEach((ratio,i)=>{
+    let edgeShape=i===0?(1-0.48*edge):(0.82+edge*0.42);
+    let decay=(body/(1+i*0.25))*(i===0?1:0.82);
+    impactMode(base*ratio,vel*gains[i]*edgeShape,decay,i===0?1.045:1.012,"sine");
+  });
+}
+function randomPhaseWave(){
+  let p=Math.random()*Math.PI*2;
+  let real=new Float32Array(2),imag=new Float32Array(2);
+  real[1]=Math.cos(p);
+  imag[1]=Math.sin(p);
+  return actx.createPeriodicWave(real,imag,{disableNormalization:true});
+}
+function getWave(){
+  if(wavePool&&wavePool.length)return wavePool[(Math.random()*wavePool.length)|0];
+  return randomPhaseWave();
+}
+function metalPartial(freq,peak,dec,spread,V){
+  let t=actx.currentTime;
+  spread=spread==null?0.007:spread;
+  // One voice per partial keeps the graph small; random phase + drift keeps
+  // it from sounding like a clean synth stack. The fundamental carries the
+  // pitch, upper partials sit lower and die faster.
+  let o=actx.createOscillator(),g=actx.createGain();
+  o.setPeriodicWave(getWave());
+  let jitter=(Math.random()*2-1)*spread*0.24;
+  let f=Math.max(70,Math.min(actx.sampleRate*0.43,freq*(1+jitter)));
+  let drift=1.0015+Math.random()*0.0035;
+  o.frequency.setValueAtTime(f*drift,t);
+  o.frequency.exponentialRampToValueAtTime(f,t+Math.min(0.12,Math.max(0.025,dec*0.18)));
+  env(g,t,0.0006,Math.max(0.0001,peak),dec);
+  o.connect(g);g.connect(V?V.bus:master);o.start(t);o.stop(t+dec+0.12);
+  if(V)V.srcs.push(o);
+}
+function cymNoiseBand(freq,Q,peak,dec,sweepTo,flutter,V){
+  if(peak<=0.0001||dec<=0.01)return;
+  let t=actx.currentTime,buf=metalNoiseBuf||noiseBuf;
+  let n=actx.createBufferSource();n.buffer=buf;
+  n.playbackRate.value=0.96+Math.random()*0.08;
+  let f=actx.createBiquadFilter();f.type="bandpass";
+  let startF=Math.max(180,Math.min(actx.sampleRate*0.42,freq*(0.96+Math.random()*0.08)));
+  f.frequency.setValueAtTime(startF,t);f.Q.value=Q||0.7;
+  if(sweepTo){
+    let target=Math.max(160,Math.min(actx.sampleRate*0.42,sweepTo));
+    f.frequency.exponentialRampToValueAtTime(target,t+dec);
+  }
+  let eg=actx.createGain();env(eg,t,0.0015,peak,dec);
+  let motion=actx.createGain();motion.gain.setValueAtTime(1,t);
+  n.connect(f);f.connect(eg);eg.connect(motion);motion.connect(V?V.bus:master);
+  let lfo=null,lg=null;
+  if(flutter&&flutter>0){
+    if(V&&V.lfo){
+      lg=actx.createGain();
+      lg.gain.value=Math.min(0.16,flutter);
+      V.lfo.connect(lg);lg.connect(motion.gain);
+    }else{
+      lfo=actx.createOscillator();lg=actx.createGain();
+      lfo.type="sine";lfo.frequency.value=3.4+Math.random()*8.6;
+      lg.gain.value=Math.min(0.16,flutter);
+      lfo.connect(lg);lg.connect(motion.gain);lfo.start(t);lfo.stop(t+dec+0.08);
+      if(V&&lfo)V.srcs.push(lfo);
+    }
+  }
+  let dur=Math.min(dec+0.12,Math.max(0.05,buf.duration-0.02));
+  let maxOff=Math.max(0,buf.duration-dur-0.01);
+  let off=maxOff>0?Math.random()*maxOff:0;
+  n.start(t,off,dur);
+  if(V)V.srcs.push(n);
+}
+function cymImpact(vel,w,brightness,V){
+  brightness=brightness==null?1:brightness;
+  // The first instant is mostly stick tip + chaotic local metal deformation.
+  // Keep it broadband and brief so it reads as an impact, not a pitched tone.
+  cymNoiseBand(2500+brightness*500,1.0,vel*0.13*w,0.018,1900+brightness*350,0,V);
+  cymNoiseBand(7500+brightness*1100,0.8,vel*0.09*w,0.014,5800+brightness*850,0,V);
+}
+function renderStickContact(bellness){
+  // Same inherently noisy cluster as before, but rendered once per bellness
+  // bucket and reused. Per-hit playbackRate/filter variation keeps hits lively.
+  let dur=0.075+bellness*0.075;
+  let frames=Math.max(64,Math.floor(actx.sampleRate*dur));
+  let b=actx.createBuffer(1,frames,actx.sampleRate);
+  let d=b.getChannelData(0);
+  let modes=[2350,3180,4210,5480,7060,9050,11300];
+  let phases=modes.map(()=>Math.random()*Math.PI*2);
+  let freqs=modes.map((f,i)=>f*(0.94+Math.random()*0.12)*(1+(i%2?bellness*0.018:0)));
+  let taus=modes.map((f,i)=>0.010+i*0.0045+bellness*(i<4?0.020:0.008));
+  let slow=0;
+  for(let i=0;i<frames;i++){
+    let tt=i/actx.sampleRate;
+    let contactEnv=Math.exp(-tt*145);
+    let white=Math.random()*2-1;
+    slow=slow*0.72+white*0.28;
+    let crack=(white-slow)*contactEnv*0.52;
+    let metal=0;
+    for(let k=0;k<freqs.length;k++){
+      let wob=1+0.0025*Math.sin(2*Math.PI*(17+k*3.7)*tt+phases[k]*0.37);
+      metal+=Math.sin(2*Math.PI*freqs[k]*wob*tt+phases[k])*
+             Math.exp(-tt/taus[k])*(0.18/(1+k*0.17));
+    }
+    // Tiny random amplitude roughness makes the local ring granular rather
+    // than behaving like a bank of clean sine oscillators.
+    let rough=0.86+Math.random()*0.28;
+    d[i]=Math.max(-1,Math.min(1,(crack+metal*rough)*0.82));
+  }
+  return b;
+}
+function cymStickContact(vel,amount,bellness,V){
+  if(amount<=0.004)return;
+  bellness=Math.min(1,Math.max(0,bellness||0));
+  let t=actx.currentTime;
+
+  // A real stick/cymbal contact is not the musical pitch of the cymbal.
+  // Build a short, noisy cluster in a mostly fixed high register. Every hit
+  // receives different phases/frequencies, preventing a clean oscillator 'ping'.
+  let key=Math.round(bellness*2);
+  let b=stickCache[key]||(stickCache[key]=renderStickContact(key/2));
+  let bd=key/2,dur=0.075+bd*0.075;
+  let src=actx.createBufferSource();src.buffer=b;
+  src.playbackRate.value=0.97+Math.random()*0.06;
+  let hp=actx.createBiquadFilter();hp.type="highpass";hp.frequency.value=1450;hp.Q.value=0.55;
+  let peak=actx.createBiquadFilter();peak.type="peaking";peak.frequency.value=4200+bellness*450;peak.Q.value=0.8;peak.gain.value=2.5+bellness*1.5;
+  let g=actx.createGain();g.gain.value=amount*vel;
+  src.connect(hp);hp.connect(peak);peak.connect(g);g.connect(V?V.bus:master);
+  src.start(t);src.stop(t+dur+0.01);
+  if(V)V.srcs.push(src);
+}
+const CYM_STICK_LEVEL=0.28; // Overall stick-contact level relative to the cymbal body.
+function cymStickTing(anchor,vel,amount,bellness,V){
+  amount*=CYM_STICK_LEVEL;
+  if(amount<=0.005)return;
+  bellness=Math.min(1,Math.max(0,bellness||0));
+
+  // Keep the stick strike independent of anchor pitch. The played note belongs
+  // to the plate/body modes below; the contact itself stays a short high metal
+  // tick even on low-note cymbals.
+  cymImpact(vel,amount,0.92+bellness*0.45,V);
+  cymStickContact(vel,amount,bellness,V);
+
+  // A bell strike has a little extra local metal after-ring: one short
+  // narrow band instead of a cluster, so the tail stays metallic, not hissy.
+  if(bellness>0.18){
+    let amt=amount*vel*bellness;
+    cymNoiseBand(3200,4.5,amt*0.06,0.07+bellness*0.05,2800,0.015,V);
+  }
+}
+function cymWash(level,dec,brightness,V){
+  if(level<=0.003)return;
+  brightness=Math.min(1.4,Math.max(0.5,brightness||1));
+  // Separate spectral bands decay at different rates. High shimmer disappears
+  // first while lower metallic wash remains, like a real cymbal darkening out.
+  cymNoiseBand(2350*brightness,0.62,level*0.43,dec*0.92,1850*brightness,0.055,V);
+  cymNoiseBand(4100*brightness,0.72,level*0.37,dec*0.68,3000*brightness,0.075,V);
+  cymNoiseBand(6900*brightness,0.80,level*0.27,dec*0.43,4700*brightness,0.095,V);
+  cymNoiseBand(10500*brightness,0.68,level*0.15,dec*0.22,7200*brightness,0.12,V);
+}
+function sstep(a,b,x){
+  let t=Math.min(1,Math.max(0,(x-a)/(b-a)));
+  return t*t*(3-2*t);
+}
+function cymWeights(r){
+  r=Math.min(1,Math.max(0,r==null?0.9:r));
+  let wBell=1-sstep(0.24,0.49,r);
+  let wEdge=sstep(0.61,0.9,r);
+  let wBow=Math.max(0,1-wBell-wEdge);
+  return [wBell,wBow,wEdge];
+}
+function playKick(freq,vel,pos){
+  ensureAudio();
+  pos=Math.min(1,Math.max(0,pos==null?0.15:pos));
+  vel=Math.min(1.15,Math.max(0.05,vel));
+  let hard=1-pos;
+  let soft=pos;
+  let t=actx.currentTime;
+
+  // Keep the labelled pitch as the drumhead's settled fundamental, but begin
+  // above it for the familiar bass-drum pitch drop after the beater strike.
+  // Low notes get extra fundamental weight + a longer body so E2–F2 still read
+  // their pitch on small speakers that can't reproduce 82–92 Hz directly.
+  let lowBoost=Math.min(1,Math.max(0,(130-freq)/130));
+  let bodyDec=0.48+vel*0.34+soft*0.15+lowBoost*0.18;
+  let o=actx.createOscillator(),g=actx.createGain();
+  o.type="sine";
+  o.frequency.setValueAtTime(Math.max(35,freq*(1.72+0.22*hard)),t);
+  o.frequency.exponentialRampToValueAtTime(Math.max(30,freq),t+0.052+soft*0.025);
+  env(g,t,0.001,vel*(1.0+soft*0.15+lowBoost*0.25),bodyDec);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+bodyDec+0.15);
+
+  // Octave punch: carries the labelled pitch where the true fundamental
+  // won't survive (phone speakers), without changing the settled pitch.
+  impactMode(freq*2.0,vel*(0.16+lowBoost*0.14),0.30+soft*0.10,1.02,"sine");
+
+  // First membrane modes of a circular head: enough to sound acoustic while
+  // leaving the chromatic fundamental easy to hear.
+  impactMode(freq*1.593,vel*(0.16+0.05*hard),0.23+soft*0.08,1.025,"sine");
+  impactMode(freq*2.136,vel*(0.085+0.055*hard),0.14+soft*0.05,1.018,"sine");
+  impactMode(freq*2.296,vel*0.055,0.105,1.012,"sine");
+
+  // Enclosed-air / shell weight sits below the musical head pitch.
+  impactMode(Math.max(27,freq*0.50),vel*(0.32+soft*0.20),0.42+soft*0.22,1.04,"sine");
+  noiseHit("bandpass",Math.min(620,Math.max(150,freq*3.2)),0.75,vel*(0.14+soft*0.08),0.075,false);
+
+  // Beater contact: harder/top hits carry more short high-frequency attack.
+  noiseHit("bandpass",1650+hard*900,1.15,vel*(0.11+hard*0.19),0.026+soft*0.012,false);
+  noiseHit("highpass",4300+hard*900,0.55,vel*(0.025+hard*0.075),0.014,false);
+}
+function playSnare(freq,vel,r){
+  ensureAudio();
+  r=Math.min(1,Math.max(0,r||0));
+  vel=Math.min(1.15,Math.max(0.05,vel));
+  let edge=sstep(0.28,0.94,r);
+  let center=1-edge;
+
+  // Drumhead modes. The fundamental remains the requested note; moving toward
+  // the rim suppresses the low mode while emphasizing higher membrane modes.
+  drumModes(freq,vel*(0.52+center*0.20),0.29+vel*0.15,edge);
+
+  // Very short stick/head contact and shell crack.
+  noiseHit("bandpass",1050+edge*950,1.0,vel*(0.12+edge*0.16),0.026,false);
+  noiseHit("bandpass",2850+edge*850,0.9,vel*(0.15+edge*0.12),0.045,false);
+
+  // Snare wires are not one noise band: use several overlapping bands with
+  // different decays, plus a little low-mid rattle for the strainer/body.
+  let wire=vel*(0.52+0.16*center+0.20*edge);
+  noiseHit("bandpass",1750,0.62,wire*0.72,0.16+center*0.08,false,1250);
+  noiseHit("bandpass",3550,0.78,wire*0.62,0.12+center*0.07,false,2400);
+  noiseHit("highpass",6500,0.52,wire*0.34,0.09+center*0.08,false);
+  noiseHit("bandpass",720,1.4,vel*0.10*(0.6+center),0.11,false);
+
+  if(edge>0.12){
+    // Rim/head contact: short, strongly inharmonic resonances rather than the
+    // previous square-wave 'click'.
+    impactMode(freq*3.74,vel*0.12*edge,0.065,1.012,"sine");
+    impactMode(freq*5.43,vel*0.075*edge,0.045,1.008,"sine");
+    noiseHit("bandpass",4700,2.2,vel*0.22*edge,0.038,false);
+  }
+}
+const CYM_MAX_VOICES=3;
+function cymVoice(life){
+  ensureAudio();
+  let t=actx.currentTime;
+  let bus=actx.createGain();bus.gain.value=0.7;bus.connect(master);
+  let lfo=actx.createOscillator();lfo.type="sine";lfo.frequency.value=3.4+Math.random()*8.6;
+  let stopAt=Math.min(6.5,(life||2)+0.4);
+  lfo.start(t);lfo.stop(t+stopAt);
+  let V={bus:bus,lfo:lfo,srcs:[lfo]};
+  cymVoices.push(V);
+  if(cymVoices.length>CYM_MAX_VOICES){
+    let old=cymVoices.shift();
+    try{old.bus.gain.setTargetAtTime(0.0001,t,0.015);}catch(e){}
+    old.srcs.forEach(s=>{try{s.stop(t+0.12);}catch(e){}});
+    setTimeout(()=>{try{old.bus.disconnect();}catch(e){}},400);
+  }
+  return V;
+}
+function playCymbal(freq,vel,r){
+  ensureAudio();
+  r=Math.min(1,Math.max(0,r==null?0.9:r));
+  vel=Math.min(1.15,Math.max(0.05,vel));
+  let cw=cymWeights(r),wBell=cw[0],wBow=cw[1],wEdge=cw[2];
+  let anchor=freq;
+  let maxLife=0;
+  if(wBell>0.01)maxLife=Math.max(maxLife,1.15+vel*0.75);
+  if(wBow>0.01)maxLife=Math.max(maxLife,1.45+vel*0.9);
+  if(wEdge>0.01)maxLife=Math.max(maxLife,2.2+vel*1.0+sstep(0.62,1,r)*0.7);
+  let V=cymVoice(maxLife);
+
+  if(wBell>0.01){
+    // Bell: strongest stick definition and the longest narrow ringing modes.
+    // Fundamental leads; a few inharmonic uppers sit lower and die faster.
+    let bodyDec=1.15+vel*0.75;
+    cymStickTing(anchor,vel,wBell*1.15,1,V);
+    if(vel*wBell>0.01)metalPartial(anchor,vel*wBell*0.30,bodyDec,0.003,V);
+    let ratios=[1.71,2.74,4.16];
+    ratios.forEach((m,i)=>{
+      let amp=vel*wBell*0.075/(1+i*0.5);
+      let life=Math.max(0.14,bodyDec*Math.pow(0.6,i+1));
+      if(amp>0.003)metalPartial(anchor*m,amp,life,0.005+i*0.0008,V);
+    });
+    cymWash(vel*wBell*0.10,0.72+vel*0.32,1.08,V);
+  }
+
+  if(wBow>0.01){
+    // Bow: clear stick ping followed by a medium, complex wash.
+    let bodyDec=1.45+vel*0.9;
+    cymStickTing(anchor,vel,wBow*0.9,0.42,V);
+    if(vel*wBow>0.01)metalPartial(anchor,vel*wBow*0.16,bodyDec,0.004,V);
+    let ratios=[1.82,2.74,3.82,5.2];
+    ratios.forEach((m,i)=>{
+      let amp=vel*wBow*0.05/(1+i*0.5);
+      let life=Math.max(0.13,bodyDec*Math.pow(0.58,i+1));
+      if(amp>0.0028)metalPartial(anchor*m,amp,life,0.007+i*0.0008,V);
+    });
+    cymWash(vel*wBow*0.30,bodyDec,1.0,V);
+  }
+
+  if(wEdge>0.01){
+    // Edge/crash: the stick is still audible at the front of the hit, but the
+    // broad plate motion blooms around it. The high bands die much sooner than
+    // the low modes instead of the whole sound fading as one envelope.
+    let k=sstep(0.62,1,r);
+    let bodyDec=2.2+vel*1.0+k*0.7;
+    cymStickTing(anchor,vel,wEdge*0.56,0.12,V);
+    if(vel*wEdge>0.01)metalPartial(anchor,vel*wEdge*0.10,bodyDec,0.005,V);
+    let ratios=[1.76,2.54,3.62,4.9,6.4];
+    ratios.forEach((m,i)=>{
+      let amp=vel*wEdge*0.038/(1+i*0.5);
+      let life=Math.max(0.14,bodyDec*Math.pow(0.58,i+1));
+      if(amp>0.0025)metalPartial(anchor*m,amp,life,0.009+i*0.001,V);
+    });
+    cymWash(vel*wEdge*0.45,bodyDec,0.94+k*0.08,V);
+    // A small mid-metal after-ring keeps the tail metallic after the bright
+    // noise has faded, rather than leaving a pure hiss envelope.
+    metalPartial(anchor*2.67,vel*wEdge*0.022,bodyDec*0.6,0.012,V);
+  }
+}
+function fmtNote(n){
+  let name=n.slice(0,-1),oct=n.slice(-1);
+  return name.replace("#","♯")+'<span class="oct">'+oct+"</span>";
+}
+function kickVel(rect,x,y){
+  let yn=(y-rect.top)/rect.height;
+  yn=Math.min(1,Math.max(0,yn));
+  return {vel:0.3+0.7*(1-yn),pos:yn};
+}
+function snareVel(rect,x,y){
+  let cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+  let dx=(x-cx)/(rect.width/2),dy=(y-cy)/(rect.height/2);
+  let r=Math.min(1,Math.sqrt(dx*dx+dy*dy));
+  return {vel:1-0.7*r,r:r};
+}
+function cymVel(rect,x,y){
+  let cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+  let dx=(x-cx)/(rect.width/2),dy=(y-cy)/(rect.height/2);
+  let r=Math.min(1,Math.sqrt(dx*dx+dy*dy));
+  return {vel:0.22+0.78*r,r:r};
+}
+function strikeFx(el,clientX,clientY){
+  let rect=el.getBoundingClientRect();
+  let s=document.createElement("span");
+  s.className="strike";
+  s.style.left=(clientX-rect.left)+"px";
+  s.style.top=(clientY-rect.top)+"px";
+  let gc=el.style.getPropertyValue("--glow").trim()||"#fff";
+  s.style.background=gc;
+  s.style.boxShadow="0 0 10px "+gc;
+  el.appendChild(s);
+  setTimeout(()=>s.remove(),380);
+  el.classList.add("hit");
+  setTimeout(()=>el.classList.remove("hit"),130);
+}
+function announce(txt){readoutEl.textContent=txt;}
+const NOTE_COLORS={"C":"#3AFF00","C#":"#00FFEC","D":"#008FFF","D#":"#0F00FB","E":"#6300BE","F":"#6E0080","F#":"#980000","G":"#C80000","G#":"#F30000","A":"#FF7800","A#":"#FFEF00","B":"#AAFF00"};
+function noteColor(note){return NOTE_COLORS[note.slice(0,-1)]||"#fff";}
+function makePad(kind,note){
+  let b=document.createElement("button");
+  b.className="pad "+kind;
+  b.innerHTML='<span class="note">'+fmtNote(note)+"</span>";
+  b.setAttribute("aria-label",kind+" "+note);
+  b.style.setProperty("--glow",noteColor(note));
+  let freq=noteToFreq(note);
+  function fire(x,y,isKbd){
+    ensureAudio();
+    if(isKbd){x=null;}
+    let rect=b.getBoundingClientRect();
+   if(kind==="kick"){
+     let raw=isKbd?{vel:0.85,pos:0.15}:kickVel(rect,x,y);
+     let vel=dynamicsOn?raw.vel:1;
+     let pos=dynamicsOn?raw.pos:0.15;
+     playKick(freq,vel,pos);
+      announce(note.replace("#","♯")+" kick · "+Math.round(vel*100)+"% · "+(pos<0.36?"toe (top)":pos<0.71?"toe+heel":"heel (bottom)"));
+    }
+   if(kind==="snare"){
+      let v=isKbd?{vel:0.85,r:0}:{vel:0,r:0};
+      if(!isKbd)v=snareVel(rect,x,y);
+      if(!dynamicsOn){v.vel=1;v.r=0;}
+      playSnare(freq,v.vel,v.r);
+      let e=sstep(0.3,0.95,v.r);
+      announce(note.replace("#","♯")+" snare · "+Math.round(v.vel*100)+"% · "+(e<0.25?"center":e<0.75?"center+edge":"edge"));
+    }
+   if(kind==="cymbal"){
+      let v=isKbd?{vel:0.85,r:0.9}:{vel:0,r:0};
+      if(!isKbd)v=cymVel(rect,x,y);
+      if(!dynamicsOn){v.vel=1;v.r=0.5;}
+      playCymbal(freq,v.vel,v.r);
+      let cw2=cymWeights(v.r);
+      let mix=["bell","bow","edge"].filter((nm,i)=>cw2[i]>0.25).join("+")||"bow";
+      announce(note.replace("#","♯")+" cymbal · "+Math.round(v.vel*100)+"% · "+mix);
+    }
+  }
+  b.addEventListener("pointerdown",e=>{
+    e.preventDefault();
+    fire(e.clientX,e.clientY,false);
+    strikeFx(b,e.clientX,e.clientY);
+  });
+  b.addEventListener("keydown",e=>{
+    if(e.repeat)return;
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();fire(0,0,true);strikeFx(b,rectCenterX(b),rectCenterY(b));}
+  });
+  return b;
+}
+function rectCenterX(el){let r=el.getBoundingClientRect();return r.left+r.width/2;}
+function rectCenterY(el){let r=el.getBoundingClientRect();return r.top+r.height/2;}
+const MODES={
+  compact:{
+    kick:["E2","F2","F#2","G2","G#2","A2","A#2"],
+    snare:["B2","C3","C#3","D3","D#3","E3","F3"],
+    cym:["F#4","G4","G#4","A4","A#4","B4","C5"],
+    klabel:"Kicks — E2 → A♯2",slabel:"Snares — B2 → F3",clabel:"Cymbals — F♯4 → C5",
+    sub:"7 kick pedals (E2–A♯2) · 7 snares (B2–F3) · 7 cymbals (F♯4–C5). Hit position = dynamics."
+  },
+  full:{
+    kick:["G1","G#1","A1","A#1","B1","C2","C#2","D2","D#2","E2","F2","F#2"],
+    snare:["D3","D#3","E3","F3","F#3","G3","G#3","A3","A#3","B3","C4","C#4"],
+    cym:["A4","A#4","B4","C5","C#5","D5","D#5","E5","F5","F#5","G5","G#5"],
+    klabel:"Kicks — G → F♯",slabel:"Snares — D → C♯",clabel:"Cymbals — A → G♯",
+    sub:"12 kick pedals (G1–F♯2) · 12 snares (D3–C♯4) · 12 cymbals (A4–G♯5). Hit position = dynamics."
+  }
+};
+let fullOn=false;
+let kickNotes=[],snareNotes=[],cymNotes=[];
+let kg=document.getElementById("kickGrid"),sg=document.getElementById("snareGrid"),cg=document.getElementById("cymGrid");
+function buildKit(){
+  let m=fullOn?MODES.full:MODES.compact;
+  kickNotes=m.kick;snareNotes=m.snare;cymNotes=m.cym;
+  cg.innerHTML="";sg.innerHTML="";kg.innerHTML="";
+  cymNotes.forEach(n=>cg.appendChild(makePad("cymbal",n)));
+  snareNotes.forEach(n=>sg.appendChild(makePad("snare",n)));
+  kickNotes.forEach(n=>kg.appendChild(makePad("kick",n)));
+  document.getElementById("cymLabel").textContent=m.clabel;
+  document.getElementById("snareLabel").textContent=m.slabel;
+  document.getElementById("kickLabel").textContent=m.klabel;
+  document.getElementById("subEl").textContent=m.sub;
+  window.drumKit={noteToFreq,playKick,playSnare,playCymbal,kickNotes,snareNotes,cymNotes,MODES};
+  layoutArches();
+}
+function layoutArches(){
+  let base=parseInt(archInput.value,10);
+  [cg,sg,kg].forEach(grid=>{
+    let f=Math.min(1,Math.max(0.35,grid.clientWidth/700));
+    let a=base*f;
+    let n=grid.children.length;
+    [...grid.children].forEach((pad,i)=>{
+      let t=n>1?i/(n-1):0.5;
+      let arc=Math.sin(Math.PI*t);
+      pad.style.marginTop=((1-arc)*a)+"px";
+      pad.style.rotate=((t-0.5)*24*(a/70))+"deg";
+    });
+  });
+  if(fitOn)fitKit();
+}
+function fitKit(){
+  kitEl.style.zoom="";
+  if(!fitOn)return;
+  let topH=document.querySelector(".topbar").offsetHeight+readoutEl.offsetHeight+50;
+  let availW=document.documentElement.clientWidth-16;
+  let availH=window.innerHeight-topH-24;
+  let needW=kitEl.scrollWidth||1;
+  let needH=kitEl.scrollHeight||1;
+  let s=Math.min(availW/needW,availH/needH);
+  if(!isFinite(s))return;
+  s=Math.min(2.2,Math.max(0.2,s));
+  if(s>0.97&&s<1.03){kitEl.style.zoom="";return;}
+  kitEl.style.zoom=String(s);
+}
+dynBtn.onclick=()=>{
+  dynamicsOn=!dynamicsOn;
+  dynBtn.textContent=dynamicsOn?"Dynamics: on":"Dynamics: off";
+};
+fitBtn.onclick=()=>{
+  fitOn=!fitOn;
+  fitBtn.textContent=fitOn?"Fit: on":"Fit: off";
+  if(fitOn)fitKit();
+  else kitEl.style.zoom="";
+};
+archInput.oninput=layoutArches;
+window.addEventListener("resize",()=>{if(fitOn)fitKit();});
+fullBtn.onclick=()=>{
+  fullOn=!fullOn;
+  fullBtn.textContent=fullOn?"Full 36: on":"Full 36: off";
+  buildKit();
+};
+buildKit();
+</script>
+
+</body>
+</html>
